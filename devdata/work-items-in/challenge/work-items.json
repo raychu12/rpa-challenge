@@ -1,0 +1,12 @@
+[
+  {
+      "payload": {
+         "search_phrase": "Politics",
+         "news_category": "Politics",
+         "number_of_months": "0"
+      },
+      "files": {
+          "orders.xlsx": "orders.xlsx"
+      }
+  }
+]

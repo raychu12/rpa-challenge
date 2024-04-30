@@ -1,0 +1,16 @@
+1714453197557	geckodriver	INFO	Listening on 127.0.0.1:50947
+1714453200633	mozrunner::runner	INFO	Running command: "C:\\Users\\gusta\\.cache\\selenium\\firefox\\win64\\125.0.3\\firefox.exe" "--marionette" "--remote-debuggin ... ocalhost" "-no-remote" "-profile" "C:\\Users\\gusta\\AppData\\Local\\robocorp\\temp\\ee418a861d4a9f24\\rust_mozprofileI3xzM9"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+Dynamically enable window occlusion 0
+1714453203505	Marionette	INFO	Marionette enabled
+1714453203565	Marionette	INFO	Listening on port 50968
+Read port: 50968
+WebDriver BiDi listening on ws://127.0.0.1:50948
+1714453203625	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:50948/devtools/browser/9f8d2b7f-0e56-45bf-ab66-f578262e9be7
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/k5h5q_9tU1RYgp6lbq_RpGbi2Xr8j5pEDF-BfKFyNZU.js line 2 > eval line 5431 > eval line 1 > eval line 1 > eval, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/k5h5q_9tU1RYgp6lbq_RpGbi2Xr8j5pEDF-BfKFyNZU.js line 2 > eval line 6903 > eval line 1 > eval line 1 > eval, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://z.moatads.com/mightyhiveusmmcm360display620308191229/moatad.js#moatClientLevel1=31381503&moatClientLevel2=8511905&moatClientLevel3=386386692&moatClientLevel4=214003717&zMoatADV=12670553&zMoatENV=j&zMoatDV360_EXCH=&zMoatDV360_AUC=&zMoatDV360_CP=&zMoatDV360_LI=&zMoatDV360_CR=&zMoatABH=0, line 328: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+1714453235360	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
