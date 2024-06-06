@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 from RPA.Browser.Selenium import Selenium
 from RPA.Robocorp.WorkItems import WorkItems
+
+
 class ProcessLogic:
     def __init__(self):
         logging.basicConfig(level=logging.INFO)
@@ -15,18 +17,19 @@ class ProcessLogic:
         work_items.get_input_work_item()
         self.search_phrase = work_items.get_work_item_variable('search_phrase')
         self.news_category = work_items.get_work_item_variable('news_category')
-        self.num_months = int(work_items.get_work_item_variable('number_of_months'))
+        self.num_months = int(
+            work_items.get_work_item_variable('number_of_months'))
         news_columns = [
             'Title', 'Date', 'Description', 'Filename',
             'Count of Search Phrases', 'Contains Money?'
         ]
         self.news_df = pd.DataFrame(columns=news_columns)
         self.start_automation()
-    
+
     def start_automation(self):
         """
         Initiates the automation process.
-        """      
+        """
         self.get_news_information()
 
     def get_selected_months_range(self):
@@ -41,10 +44,12 @@ class ProcessLogic:
         start_month = start_date.month
 
         if start_month <= current_month:
-            months = [calendar.month_name[i] for i in range(start_month, current_month + 1)]
+            months = [calendar.month_name[i]
+                      for i in range(start_month, current_month + 1)]
         else:
             months = [calendar.month_name[i] for i in range(start_month, 13)] + \
-                     [calendar.month_name[i] for i in range(1, current_month + 1)]
+                     [calendar.month_name[i]
+                         for i in range(1, current_month + 1)]
 
         return months
 
@@ -56,9 +61,11 @@ class ProcessLogic:
         """
         try:
             self.browser.open_available_browser("https://gothamist.com/")
-            self.browser.wait_until_element_is_visible("//span[text()='Donate']", timeout=200)
+            self.browser.wait_until_element_is_visible(
+                "//span[text()='Donate']", timeout=200)
         except Exception as error:
-            logging.error("Failed to open browser or wait for element: %s", error)
+            logging.error(
+                "Failed to open browser or wait for element: %s", error)
 
     def extract_count_search_phrases(self, title, text):
         """
@@ -72,7 +79,7 @@ class ProcessLogic:
         pattern = re.escape(title)
         matches = re.findall(pattern, text)
         return len(matches)
-    
+
     def title_contains_money(self, text):
         """
         Check if the title contains a monetary amount.
@@ -84,7 +91,7 @@ class ProcessLogic:
         pattern = r'\$\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?|\d+\s(?:dollars|USD)'
         matches = re.findall(pattern, text)
         return bool(matches)
-    
+
     def extract_date(self, text):
         """
         Extract the date from a text.
@@ -98,7 +105,7 @@ class ProcessLogic:
             date_str = match.group(1)
             return datetime.strptime(date_str, '%b %d, %Y')
         return None
-    
+
     def download_image(self, position):
         """
         Download an image from a specified position.
@@ -129,11 +136,15 @@ class ProcessLogic:
         if self.browser.is_element_visible("//button[@title='Close']"):
             self.browser.click_button("//button[@title='Close']")
         self.browser.click_button("//button[@aria-label='Go to search page']")
-        self.browser.wait_until_element_is_visible("//form[@id='search']", timeout=100)
-        self.browser.input_text("//form[@id='search']/child::input", self.search_phrase)
+        self.browser.wait_until_element_is_visible(
+            "//form[@id='search']", timeout=100)
+        self.browser.input_text(
+            "//form[@id='search']/child::input", self.search_phrase)
         self.browser.click_button("//form[@id='search']/child::button")
-        self.browser.wait_until_element_is_visible("//span[@class='pi pi-arrow-right p-button-icon']", timeout=60)
-        num_news_items = int(self.browser.get_text("//div[@class='search-page-results pt-2']/child::span/child::strong"))
+        self.browser.wait_until_element_is_visible(
+            "//span[@class='pi pi-arrow-right p-button-icon']", timeout=60)
+        num_news_items = int(self.browser.get_text(
+            "//div[@class='search-page-results pt-2']/child::span/child::strong"))
 
         try:
             if self.browser.is_element_visible("//button[@title='Close']"):
@@ -141,9 +152,11 @@ class ProcessLogic:
 
             for position in range(1, num_news_items + 1):
                 self.load_more_news(position)
-                title, description, news_date = self.extract_news_details(position)
+                title, description, news_date = self.extract_news_details(
+                    position)
                 if news_date and news_date.strftime("%B") in months:
-                    self.process_news_item(title, description, position, news_date)
+                    self.process_news_item(
+                        title, description, position, news_date)
 
             self.news_df.to_excel(f"output/{self.search_phrase}_news.xlsx")
 
@@ -158,7 +171,8 @@ class ProcessLogic:
         """
         clicks_needed = position // 10
         if clicks_needed > 0:
-            self.browser.wait_until_element_is_visible("//button[@aria-label='Load More']", timeout=120)
+            self.browser.wait_until_element_is_visible(
+                "//button[@aria-label='Load More']", timeout=120)
             for _ in range(clicks_needed):
                 self.browser.click_button("//button[@aria-label='Load More']")
 
@@ -174,11 +188,13 @@ class ProcessLogic:
         self.browser.wait_until_element_is_visible(
             f"//div[@trackingcomponentposition='{position_str}']/descendant::div[@class='h2']", timeout=120
         )
-        title = self.browser.get_text(f"//div[@trackingcomponentposition='{position_str}']/descendant::div[@class='h2']")
+        title = self.browser.get_text(
+            f"//div[@trackingcomponentposition='{position_str}']/descendant::div[@class='h2']")
         self.browser.wait_until_element_is_visible(
             f"//div[@trackingcomponentposition='{position_str}']/descendant::p", timeout=120
         )
-        description = self.browser.get_text(f"//div[@trackingcomponentposition='{position_str}']/descendant::p")
+        description = self.browser.get_text(
+            f"//div[@trackingcomponentposition='{position_str}']/descendant::p")
         self.browser.wait_until_element_is_visible(
             f"//div[@trackingcomponentposition='{position_str}']/descendant::div[@class='card-title']/child::a",
             timeout=120
@@ -206,7 +222,8 @@ class ProcessLogic:
             position (int): The position of the news item.
             news_date (datetime): The date of the news item.
         """
-        count_phrases = self.extract_count_search_phrases((title + " " + description), self.search_phrase)
+        count_phrases = self.extract_count_search_phrases(
+            (title + " " + description), self.search_phrase)
         contains_money = self.title_contains_money((title + " " + description))
         filename = self.download_image(position)
         new_data = pd.DataFrame({
