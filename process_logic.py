@@ -126,6 +126,8 @@ class ProcessLogic:
         """
         months = self.get_selected_months_range()
         self.open_browser()
+        if self.browser.is_element_visible("//button[@title='Close']"):
+            self.browser.click_button("//button[@title='Close']")
         self.browser.click_button("//button[@aria-label='Go to search page']")
         self.browser.wait_until_element_is_visible("//form[@id='search']", timeout=100)
         self.browser.input_text("//form[@id='search']/child::input", self.search_phrase)
