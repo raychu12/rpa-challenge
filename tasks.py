@@ -1,7 +1,7 @@
-from process_logic import process_logic
+from process_logic import ProcessLogic
 from robocorp.tasks import task
 
 
 @task
 def main():
-    process = process_logic()
+    process = ProcessLogic()
