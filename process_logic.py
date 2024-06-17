@@ -134,7 +134,7 @@ class ProcessLogic:
         months = self.get_selected_months_range()
         self.open_browser()
         self.browser.wait_until_element_is_visible("//button[@title='Close']")
-        if self.browser.is_element_visible("//button[@title='Close']"):
+        if self.browser.is_element_visible("//button[@title='Close']", timeout=300):
             self.browser.click_button("//button[@title='Close']")
         self.browser.click_button("//button[@aria-label='Go to search page']")
         self.browser.wait_until_element_is_visible(
