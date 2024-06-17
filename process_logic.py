@@ -176,10 +176,13 @@ class ProcessLogic:
         """
         clicks_needed = position // 10
         if clicks_needed > 0:
-            self.browser.wait_until_element_is_visible(
-                "//button[@aria-label='Load More']", timeout=120)
-            for _ in range(clicks_needed):
-                self.browser.click_button("//button[@aria-label='Load More']")
+            try:
+                self.browser.wait_until_element_is_visible(
+                    "//button[@aria-label='Load More']", timeout=120)
+                for _ in range(clicks_needed):
+                    self.browser.click_button("//button[@aria-label='Load More']")
+            except Exception as error:
+                logging.error("Error while clicking load more: %s", error)
 
     def extract_news_details(self, position):
         """
