@@ -133,23 +133,27 @@ class ProcessLogic:
         """
         months = self.get_selected_months_range()
         self.open_browser()
-        self.browser.click_button("//button[@aria-label='Go to search page']")
-        self.browser.wait_until_element_is_visible("//button[@title='Close']", timeout=100)
-        if self.browser.is_element_visible("//button[@title='Close']"):
-            self.browser.click_button("//button[@title='Close']")
-        self.browser.wait_until_element_is_visible(
-            "//form[@id='search']", timeout=100)
-        self.browser.input_text(
-            "//form[@id='search']/child::input", self.search_phrase)
-        self.browser.click_button("//form[@id='search']/child::button")
-        self.browser.wait_until_element_is_visible(
-            "//span[@class='pi pi-arrow-right p-button-icon']", timeout=60)
-        num_news_items = int(self.browser.get_text(
-            "//div[@class='search-page-results pt-2']/child::span/child::strong"))
+        try:
+            self.browser.click_button(
+                "//button[@aria-label='Go to search page']")
+            self.browser.wait_until_element_is_visible(
+                "//button[@title='Close']", timeout=100)
+            if self.browser.is_element_visible("//button[@title='Close']"):
+                self.browser.click_button("//button[@title='Close']")
+                self.browser.wait_until_element_is_visible(
+                    "//form[@id='search']", timeout=100)
+                self.browser.input_text(
+                    "//form[@id='search']/child::input", self.search_phrase)
+                self.browser.click_button("//form[@id='search']/child::button")
+                self.browser.wait_until_element_is_visible(
+                    "//span[@class='pi pi-arrow-right p-button-icon']", timeout=60)
+                num_news_items = int(self.browser.get_text(
+                    "//div[@class='search-page-results pt-2']/child::span/child::strong"))
+        except Exception as e:
+            logging.error("Failed to click on element: %s", e)
+        
 
         try:
-            # if self.browser.is_element_visible("//button[@title='Close']"):
-            #     self.browser.click_button("//button[@title='Close']")
 
             for position in range(1, num_news_items + 1):
                 self.load_more_news(position)
