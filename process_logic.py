@@ -133,10 +133,10 @@ class ProcessLogic:
         """
         months = self.get_selected_months_range()
         self.open_browser()
-        self.browser.wait_until_element_is_visible("//button[@title='Close']")
-        if self.browser.is_element_visible("//button[@title='Close']", timeout=300):
-            self.browser.click_button("//button[@title='Close']")
         self.browser.click_button("//button[@aria-label='Go to search page']")
+        self.browser.wait_until_element_is_visible("//button[@title='Close']", timeout=100)
+        if self.browser.is_element_visible("//button[@title='Close']"):
+            self.browser.click_button("//button[@title='Close']")
         self.browser.wait_until_element_is_visible(
             "//form[@id='search']", timeout=100)
         self.browser.input_text(
@@ -148,8 +148,8 @@ class ProcessLogic:
             "//div[@class='search-page-results pt-2']/child::span/child::strong"))
 
         try:
-            if self.browser.is_element_visible("//button[@title='Close']"):
-                self.browser.click_button("//button[@title='Close']")
+            # if self.browser.is_element_visible("//button[@title='Close']"):
+            #     self.browser.click_button("//button[@title='Close']")
 
             for position in range(1, num_news_items + 1):
                 self.load_more_news(position)
